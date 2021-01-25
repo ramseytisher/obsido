@@ -1,19 +1,32 @@
-import Head from 'next/head'
+import { useState } from "react";
+import Head from "next/head";
+
+import Overview from "../components/overview";
+import Income from "../components/income";
+import Balance from "../components/balance";
+import Earnings from "../components/earnings";
+import Cashflow from "../components/cashflow";
 
 export default function Home() {
+  const [symbol, setSymbol] = useState("CERN");
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Obsido</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
+        <h1 className="title">Welcome to Obsido</h1>
+        <div style={{ width: "500px" }}>
+          <Balance symbol={symbol} dev/>
+          <Overview symbol={symbol} dev />
+          <Income symbol={symbol} dev />
+          <Cashflow symbol={symbol} dev />
+          <Earnings symbol={symbol} dev />
+        </div>
+        {/* <p className="description">
           Get started by editing <code>pages/index.js</code>
         </p>
 
@@ -45,7 +58,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div> */}
       </main>
 
       <footer>
@@ -54,7 +67,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
       </footer>
@@ -205,5 +218,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
