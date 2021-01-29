@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "obsido9b085658": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

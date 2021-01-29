@@ -1,11 +1,19 @@
 import { useState } from "react";
 import Head from "next/head";
 
+import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+import Amplify, { Auth } from "aws-amplify";
+import awsconfig from "../src/aws-exports";
+
 import Overview from "../components/overview";
 import Income from "../components/income";
 import Balance from "../components/balance";
 import Earnings from "../components/earnings";
 import Cashflow from "../components/cashflow";
+
+Amplify.configure(awsconfig);
+
+// left off here: https://docs.amplify.aws/start/getting-started/data-model/q/integration/next#create-a-graphql-api-and-database
 
 export default function Home() {
   const [symbol, setSymbol] = useState("CERN");
@@ -20,32 +28,34 @@ export default function Home() {
 
       <main>
         <h1 className="title">Obsido</h1>
-        Looking @ {symbol}
-        <form
-          onSubmit={(e) => {
-            setSymbol(search);
-            e.preventDefault();
-          }}
-        >
-          <label>
-            Find a stock:
-            <input
-              type="text"
-              name="symbol"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </label>
-          <input type="submit" value="Search" />
-        </form>
-        <div style={{ width: "900px" }}>
-          <Overview symbol={symbol} dev />
-          <Balance symbol={symbol} dev/>
-          <Income symbol={symbol} dev />
-          {/* <Cashflow symbol={symbol} dev /> */}
-          <Earnings symbol={symbol} dev />
-        </div>
-        {/* <p className="description">
+        <AmplifyAuthenticator>
+          <AmplifySignOut />
+          Looking @ {symbol}
+          <form
+            onSubmit={(e) => {
+              setSymbol(search);
+              e.preventDefault();
+            }}
+          >
+            <label>
+              Find a stock:
+              <input
+                type="text"
+                name="symbol"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </label>
+            <input type="submit" value="Search" />
+          </form>
+          <div style={{ width: "900px" }}>
+            <Overview symbol={symbol} dev />
+            <Balance symbol={symbol} dev />
+            <Income symbol={symbol} dev />
+            {/* <Cashflow symbol={symbol} dev /> */}
+            <Earnings symbol={symbol} dev />
+          </div>
+          {/* <p className="description">
           Get started by editing <code>pages/index.js</code>
         </p>
 
@@ -78,6 +88,7 @@ export default function Home() {
             </p>
           </a>
         </div> */}
+        </AmplifyAuthenticator>
       </main>
 
       <footer>

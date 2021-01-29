@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-obsido-dev-153440-authRole",
+      "UnauthRoleArn": "arn:aws:iam::208254545607:role/amplify-obsido-dev-153440-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::208254545607:role/amplify-obsido-dev-153440-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-obsido-dev-153440-deployment",
+      "UnauthRoleName": "amplify-obsido-dev-153440-unauthRole",
+      "StackName": "amplify-obsido-dev-153440",
+      "StackId": "arn:aws:cloudformation:us-east-2:208254545607:stack/amplify-obsido-dev-153440/6c4e2820-6271-11eb-a876-0af04eb15c30",
+      "AmplifyAppId": "du6sbo6z0c4b9"
+    },
+    "categories": {
+      "auth": {
+        "obsido9b085658": {}
+      }
+    }
+  }
+}
