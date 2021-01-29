@@ -9,6 +9,7 @@ import Cashflow from "../components/cashflow";
 
 export default function Home() {
   const [symbol, setSymbol] = useState("CERN");
+  const [search, setSearch] = useState("");
 
   return (
     <div className="container">
@@ -18,12 +19,30 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">Welcome to Obsido</h1>
-        <div style={{ width: "500px" }}>
-          <Balance symbol={symbol} dev/>
+        <h1 className="title">Obsido</h1>
+        Looking @ {symbol}
+        <form
+          onSubmit={(e) => {
+            setSymbol(search);
+            e.preventDefault();
+          }}
+        >
+          <label>
+            Find a stock:
+            <input
+              type="text"
+              name="symbol"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </label>
+          <input type="submit" value="Search" />
+        </form>
+        <div style={{ width: "900px" }}>
           <Overview symbol={symbol} dev />
+          <Balance symbol={symbol} dev/>
           <Income symbol={symbol} dev />
-          <Cashflow symbol={symbol} dev />
+          {/* <Cashflow symbol={symbol} dev /> */}
           <Earnings symbol={symbol} dev />
         </div>
         {/* <p className="description">
