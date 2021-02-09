@@ -73,7 +73,7 @@ exports.handler = async (event) => {
       return create.data.data.createStock;
     } else {
       // We say we already have this stock
-      return "Stock already exists"
+      return "Stock already exists..."
     }
   } catch (err) {
     console.log("Error adding stock ...", err);
