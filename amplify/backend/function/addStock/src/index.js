@@ -76,7 +76,7 @@ exports.handler = async (event) => {
       return "Stock already exists..."
     }
   } catch (err) {
-    console.log("Error adding stock ...", err);
+    console.log("Error adding stock: ", err);
     return "Error adding stock ...";
   }
   return "Hello";
