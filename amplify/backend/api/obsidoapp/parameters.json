@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "obsidoapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}

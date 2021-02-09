@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import { AmplifyAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify, { Auth, API, graphqlOperation } from "aws-amplify";
+
 import awsconfig from "../src/aws-exports";
+import { listStocks } from "../src/graphql/queries";
+// import { createStock as CreateStock } from "../src/graphql/mutations";
+import { addStock as AddStock } from "../src/graphql/mutations";
 
 import Overview from "../components/overview";
 import Income from "../components/income";
@@ -18,6 +22,39 @@ Amplify.configure(awsconfig);
 export default function Home() {
   const [symbol, setSymbol] = useState("CERN");
   const [search, setSearch] = useState("");
+  const [stocks, setStocks] = useState([]);
+
+  // async function getStocks() {
+  //   const data = await API.graphql({ query: listStocks })
+  //   console.log('Got stocks: ', data)
+  // }
+  useEffect(() => {
+    getStocks();
+  }, []);
+
+  async function getStocks() {
+    try {
+      const data = await API.graphql(graphqlOperation(listStocks));
+      setStocks(data.data.listStocks.items);
+    } catch (err) {
+      console.log("error fetching stocks ...");
+    }
+  }
+
+  async function createStock() {
+    try {
+      console.log("Trying ...", search);
+      const temp = await API.graphql(
+        graphqlOperation(AddStock, {
+          symbol: search,
+        })
+      );
+      console.log("Temp is: ", temp)
+      setStocks([...stocks, temp.data.addStock]);
+    } catch (err) {
+      console.log("error creating stock", err);
+    }
+  }
 
   return (
     <div className="container">
@@ -27,18 +64,16 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">Obsido</h1>
         <AmplifyAuthenticator>
           <AmplifySignOut />
-          Looking @ {symbol}
           <form
             onSubmit={(e) => {
-              setSymbol(search);
+              createStock(search);
               e.preventDefault();
             }}
           >
             <label>
-              Find a stock:
+              Add stock:
               <input
                 type="text"
                 name="symbol"
@@ -46,10 +81,15 @@ export default function Home() {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </label>
-            <input type="submit" value="Search" />
+            <input type="submit" value="Add" />
           </form>
+          <div>{stocks.map(stock => (
+            <button onClick={() => setSymbol(stock.symbol)}>{stock.symbol}</button>
+          ))}</div>
+          <br />
+          Looking @ {symbol}
           <div style={{ width: "900px" }}>
-            <Overview symbol={symbol} dev />
+            <Overview symbol={symbol} />
             <Balance symbol={symbol} dev />
             <Income symbol={symbol} dev />
             {/* <Cashflow symbol={symbol} dev /> */}
