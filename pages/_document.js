@@ -1,5 +1,10 @@
 import Document from 'next/document'
+import Amplify from 'aws-amplify'
 import { ServerStyleSheet } from 'styled-components'
+
+import config from './aws-exports'
+
+Amplify.configure(config)
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {

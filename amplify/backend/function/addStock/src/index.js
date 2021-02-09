@@ -17,6 +17,7 @@ const createStock = gql`
       id
       symbol
       description
+      eps
       createdAt
       updatedAt
     }
@@ -37,6 +38,11 @@ const listStocks = gql`
 exports.handler = async (event) => {
 
   try {
+    const stockData = await axios({
+        method: "get",
+        url: `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${event.arguments.symbol}&apikey=6GUGOE51J9KLH0O2`
+    })
+    
     const current = await axios({
       url: process.env.API_OBSIDOAPP_GRAPHQLAPIENDPOINTOUTPUT,
       method: "post",
@@ -65,6 +71,8 @@ exports.handler = async (event) => {
           variables: {
             input: {
               symbol: event.arguments.symbol,
+              description: stockData.data.Name,
+              eps: stockData.data.EPS
             },
           },
         },

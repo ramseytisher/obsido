@@ -19,7 +19,6 @@ export default function Overview({ symbol, dev }) {
           if (data.Note) {
             setError(data.Note);
           } else {
-            console.log("Response: ", data)
             setOverview(data);
           }
         })

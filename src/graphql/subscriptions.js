@@ -7,6 +7,7 @@ export const onCreateStock = /* GraphQL */ `
       id
       symbol
       description
+      eps
       createdAt
       updatedAt
     }
@@ -18,6 +19,7 @@ export const onUpdateStock = /* GraphQL */ `
       id
       symbol
       description
+      eps
       createdAt
       updatedAt
     }
@@ -29,6 +31,7 @@ export const onDeleteStock = /* GraphQL */ `
       id
       symbol
       description
+      eps
       createdAt
       updatedAt
     }

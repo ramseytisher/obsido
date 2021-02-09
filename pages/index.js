@@ -7,7 +7,10 @@ import Amplify, { Auth, API, graphqlOperation } from "aws-amplify";
 import awsconfig from "../src/aws-exports";
 import { listStocks } from "../src/graphql/queries";
 // import { createStock as CreateStock } from "../src/graphql/mutations";
-import { addStock as AddStock } from "../src/graphql/mutations";
+import {
+  addStock as AddStock,
+  deleteStock as DeleteStock,
+} from "../src/graphql/mutations";
 
 import Overview from "../components/overview";
 import Income from "../components/income";
@@ -37,7 +40,7 @@ export default function Home() {
       const data = await API.graphql(graphqlOperation(listStocks));
       setStocks(data.data.listStocks.items);
     } catch (err) {
-      console.log("error fetching stocks ...");
+      console.log("error fetching stocks ...", err);
     }
   }
 
@@ -49,10 +52,26 @@ export default function Home() {
           symbol: search,
         })
       );
-      console.log("Temp is: ", temp)
+      console.log("Temp is: ", temp);
       setStocks([...stocks, temp.data.addStock]);
     } catch (err) {
       console.log("error creating stock", err);
+    }
+  }
+
+  async function deleteStock(id) {
+    try {
+      console.log("Deleting ...");
+      const deleteItem = await API.graphql(
+        graphqlOperation(DeleteStock, {
+          input: {
+            id: id,
+          },
+        })
+      );
+      setStocks(stocks.filter((stock) => stock.id !== id));
+    } catch (err) {
+      console.log("error deleting stock: ", err);
     }
   }
 
@@ -69,6 +88,7 @@ export default function Home() {
           <form
             onSubmit={(e) => {
               createStock(search);
+              setSearch("");
               e.preventDefault();
             }}
           >
@@ -83,9 +103,21 @@ export default function Home() {
             </label>
             <input type="submit" value="Add" />
           </form>
-          <div>{stocks.map(stock => (
-            <button onClick={() => setSymbol(stock.symbol)}>{stock.symbol}</button>
-          ))}</div>
+          <div>
+            {stocks.map((stock) => (
+              <div>
+                <div>
+                  <pre>{JSON.stringify(stock, null, 2)}</pre>
+                </div>
+                <button onClick={() => setSymbol(stock.symbol)}>
+                  Get Details
+                </button>
+                <button onClick={() => deleteStock(stock.id)}>
+                  Delete: {stock.symbol}
+                </button>
+              </div>
+            ))}
+          </div>
           <br />
           Looking @ {symbol}
           <div style={{ width: "900px" }}>

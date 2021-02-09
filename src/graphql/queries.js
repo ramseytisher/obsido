@@ -17,6 +17,7 @@ export const getStock = /* GraphQL */ `
       id
       symbol
       description
+      eps
       createdAt
       updatedAt
     }
@@ -33,6 +34,7 @@ export const listStocks = /* GraphQL */ `
         id
         symbol
         description
+        eps
         createdAt
         updatedAt
       }

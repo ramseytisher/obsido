@@ -90,7 +90,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-obsido-dev-153440-deployment",
-          "S3Key": "amplify-builds/addStock-41717a717a713530354f-build.zip"
+          "S3Key": "amplify-builds/addStock-5a767677317a46796137-build.zip"
         }
       }
     },
